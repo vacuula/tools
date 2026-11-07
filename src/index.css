@@ -1,0 +1,80 @@
+
+
+:root {
+  --esp-tools-button-color: #5ac060;
+
+  /* MDC Web (Older versions / some components) */
+  --mdc-typography-body1-line-height: 2rem;
+  --mdc-typography-body1-font-size: 1.6rem;
+  --mdc-typography-headline6-font-size: 1.8rem;
+  --mdc-typography-headline5-font-size: 2rem;
+  --mdc-typography-headline4-font-size: 2.4rem;
+  --mdc-typography-headline3-font-size: 3rem;
+  --mdc-typography-headline2-font-size: 3.6rem;
+  --mdc-typography-headline1-font-size: 4.8rem;
+  --mdc-typography-button-font-size: 1.6rem;
+  --mdc-typography-caption-font-size: 1.4rem;
+  --mdc-typography-overline-font-size: 1.4rem;
+
+  /* Material 3 Web Typography (Used by esp-web-tools 10+) */
+  /* Fixes rem scaling issue caused by html font-size: 62.5% */
+  --md-sys-typescale-body-large-size: 1.6rem;
+  --md-sys-typescale-body-large-line-height: 2.4rem;
+  --md-sys-typescale-body-medium-size: 1.4rem;
+  --md-sys-typescale-body-medium-line-height: 2.0rem;
+  --md-sys-typescale-body-small-size: 1.2rem;
+  --md-sys-typescale-body-small-line-height: 1.6rem;
+  
+  --md-sys-typescale-label-large-size: 1.4rem;
+  --md-sys-typescale-label-large-line-height: 2.0rem;
+  --md-sys-typescale-label-medium-size: 1.2rem;
+  --md-sys-typescale-label-medium-line-height: 1.6rem;
+  --md-sys-typescale-label-small-size: 1.1rem;
+  --md-sys-typescale-label-small-line-height: 1.6rem;
+  
+  --md-sys-typescale-title-large-size: 2.2rem;
+  --md-sys-typescale-title-large-line-height: 2.8rem;
+  --md-sys-typescale-title-medium-size: 1.6rem;
+  --md-sys-typescale-title-medium-line-height: 2.4rem;
+  --md-sys-typescale-title-small-size: 1.4rem;
+  --md-sys-typescale-title-small-line-height: 2.0rem;
+  
+  --md-sys-typescale-headline-large-size: 3.2rem;
+  --md-sys-typescale-headline-large-line-height: 4.0rem;
+  --md-sys-typescale-headline-medium-size: 2.8rem;
+  --md-sys-typescale-headline-medium-line-height: 3.6rem;
+  --md-sys-typescale-headline-small-size: 2.4rem;
+  --md-sys-typescale-headline-small-line-height: 3.2rem;
+}
+
+
+
+#root {
+  max-width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 100%;
+  font-size: 1.6rem;
+  /* font-size: 160%; */
+}
+
+
+body {
+  background: #141414;
+  color: #e0e0e0;
+  font-family: 'Trebuchet MS', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  font-size: 1.6rem;
+}
+
+
+html {
+  font-size: 62.5%;
+}

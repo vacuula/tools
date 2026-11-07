@@ -1,0 +1,236 @@
+
+.connect-robot {
+  background: #1e1e1e;
+  border: 1px solid #2e2e2e;
+  border-radius: 12px;
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 480px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+
+  .subtitle {
+    font-size: 1.4rem;
+    color: #ccc;
+    line-height: 1.5;
+  }
+
+  .title {
+    font-size: 2.2rem;
+    font-weight: 600;
+    color: #e0e0e0;
+    margin-bottom: 0.75rem;
+  }
+
+  .toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+
+    .toggle-label {
+      font-size: 1.2rem;
+      color: #aaa;
+      user-select: none;
+      cursor: pointer;
+    }
+
+    .badge {
+      font-size: 0.85rem;
+      font-weight: 600;
+      background: #2a2218;
+      color: #a07840;
+      border: 1px solid #3a3020;
+      border-radius: 4px;
+      padding: 0.2rem 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* custom toggle switch */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 38px;
+      height: 22px;
+      flex-shrink: 0;
+
+      input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+
+        &:checked + .slider {
+          background: #2a3a2a;
+          border-color: #3a5a3a;
+        }
+
+        &:checked + .slider::before {
+          transform: translateX(16px);
+          background: #5a9e6f;
+        }
+      }
+    }
+
+    .slider {
+      position: absolute;
+      inset: 0;
+      background: #2e2e2e;
+      border: 1px solid #3a3a3a;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+
+      &::before {
+        content: '';
+        position: absolute;
+        width: 14px;
+        height: 14px;
+        left: 3px;
+        top: 3px;
+        background: #888;
+        border-radius: 50%;
+        transition: transform 0.2s, background 0.2s;
+      }
+    }
+  }
+
+  button.connect {
+    background: #2a2a2a;
+    border: 1px solid #3a3a3a;
+    color: #e0e0e0;
+    font-family: inherit;
+    font-size: 1.6rem;
+    font-weight: 500;
+    padding: 0.8rem 1.6rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+    align-self: center;
+
+    &:hover:not(:disabled) {
+      background: #333;
+      border-color: #4a4a4a;
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+
+  .status {
+    font-size: 1.4rem;
+    color: #888;
+    align-self: center;
+  }
+}
+
+.info-cards {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.robot-info {
+  font-size: 1.8rem;
+  padding: 1.5rem;
+  background: #1e1e1e;
+  border: 1px solid #2e2e2e;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 550px;
+  box-sizing: border-box;
+
+  .info-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    .title-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+
+      h2 {
+        margin: 0;
+        font-size: 2rem;
+        font-weight: 600;
+        color: #fff;
+      }
+
+      .time-ago {
+        font-size: 1.2rem;
+        color: #888;
+        min-width: 15rem; /* Prevents text shifts from pushing buttons */
+      }
+    }
+
+    .action-group {
+      display: flex;
+      gap: 0.8rem;
+      align-items: center;
+
+      .tooltip-wrap {
+        display: inline-flex;
+      }
+
+      .action-btn {
+        background: #2a2a2a;
+        border: 1px solid #3a3a3a;
+        color: #e0e0e0;
+        font-family: inherit;
+        font-size: 1.3rem;
+        font-weight: 500;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background 0.15s, border-color 0.15s, opacity 0.15s;
+
+        &:hover:not(:disabled) {
+          background: #333;
+          border-color: #4a4a4a;
+        }
+
+        &:disabled {
+          opacity: 0.4;
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+
+  .no-data {
+    color: #666;
+    font-size: 1.4rem;
+    font-style: italic;
+    margin-bottom: 1rem;
+  }
+
+  .table {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    
+    .row {
+      padding: 0.8rem;
+      display: flex;
+      justify-content: space-between;
+      background-color: #3a3a3a;
+      &:nth-child(odd) {
+        background-color: #2a2a2a;
+      }
+
+      .key {
+        font-weight: 500;
+        color: #aaa;
+      }
+    }
+  }
+}

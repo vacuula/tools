@@ -1,0 +1,80 @@
+.header {
+    width: 100%;
+    display: flex;
+    margin-top: 1rem;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    align-items: center;
+
+    & > * {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .nav-btn {
+        background: transparent;
+        border: 2px solid #3a3a3a;
+        color: #e0e0e0;
+        font-family: inherit;
+        font-size: 1.6rem;
+        font-weight: 500;
+        padding: 0.8rem 1.6rem;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+        margin: 0 auto;
+
+        &:hover {
+            background: #2a2a2a;
+            border-color: #5a9e6f;
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        &:active {
+            transform: translateY(0);
+            box-shadow: none;
+        }
+    }
+
+    a {
+        color: #e0e0e0;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        .github {
+            transition: transform 0.2s ease-in-out;
+
+            &:hover {
+                transform: scale(1.1);
+            }
+        }
+
+        .logo-text {
+            display: flex;
+            gap: 0.5rem;
+            flex-direction: column;
+            padding: 0 5rem;
+
+            span {
+                font-size: 2.2rem;
+                color: #ccc;
+            }
+            span:nth-child(2) {
+                font-size: 2rem;
+                color: #666;
+            }
+        }
+    }
+}
