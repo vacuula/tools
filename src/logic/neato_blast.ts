@@ -151,7 +151,7 @@ export async function uploadNeatoBlast(
 
     const receive = async (windowMs = READ_WINDOW_MS): Promise<Uint8Array> => {
         const deadline = Date.now() + windowMs;
-        let result = new Uint8Array();
+        let result: Uint8Array<ArrayBufferLike> = new Uint8Array();
         do {
             if (readError) throw new Error(`Serial read failed: ${String(readError)}`);
             result = join(result, takeReceived());
@@ -172,7 +172,7 @@ export async function uploadNeatoBlast(
     };
 
     const waitFor = async (byte: number, polls: number): Promise<Uint8Array> => {
-        let buffer = new Uint8Array();
+        let buffer: Uint8Array<ArrayBufferLike> = new Uint8Array();
         for (let i = 0; i < polls; i++) {
             buffer = join(buffer, await receive(READ_WINDOW_MS));
             if (buffer.includes(byte)) return buffer;
@@ -272,7 +272,7 @@ export async function uploadNeatoBlast(
 
         status("awaiting_ack");
         const deadline = Date.now() + FINAL_TIMEOUT_MS;
-        let verdict = new Uint8Array();
+        let verdict: Uint8Array<ArrayBufferLike> = new Uint8Array();
         while (Date.now() < deadline) {
             verdict = join(verdict, await receive(READ_WINDOW_MS));
             if (verdict.includes(ACK)) break;
