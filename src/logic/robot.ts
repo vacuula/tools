@@ -47,7 +47,7 @@ export class Robot {
     }
 
     get canDoAdvancedCommands() {
-        return this.installedUsing && isRobotAtLeast(this.installedUsing, "1.1.1-b2")
+        return this.installedUsing && isRobotAtLeast(this.installedUsing, "1.1.1-b3")
     }
 
     get testMode() {
