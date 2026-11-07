@@ -1,4 +1,5 @@
 import { updateRobotStore } from "./connect";
+import { getRobotKey } from "./key";
 import { GetChargerKeys, GetVersionKeys, parseGetErr, parseKeys } from "./parser";
 
 
@@ -20,10 +21,12 @@ export interface DataKeyData {
 
 export class Robot {
     serialConnection: SerialPort;
+    pendingCommands = new Map<string, (result: string) => void>()
+
     version: DataKeyData = { basic: [], advanced: [], command: 'GetVersion', lastUpdated: 0 };
     charger: DataKeyData = { basic: [], advanced: [], command: 'GetCharger', lastUpdated: 0 };
     error: DataKeyData = { basic: [], advanced: [], command: 'GetErr', lastUpdated: 0 };
-    
+
 
     constructor(serialConnection: SerialPort) {
         this.serialConnection = serialConnection;
@@ -35,6 +38,30 @@ export class Robot {
         this.sendCommand('GetCharger');
         this.sendCommand('GetErr');
         this.startGetErrLoop();
+    }
+
+    slog = "";
+
+    readSlog() {
+        const skey = getRobotKey(this.version.basic[1][1]);
+
+        const loop = () => {
+            this.sendCommand2(`GetWifis sloginfo skey ${skey}`, (logData) => {
+                this.slog += logData;
+
+                this.sendCommand2(`GetWifis sloginfo clear 1 skey ${skey}`, (logCleared) => {
+                    if (logCleared.includes("===== copy sloginfo to /emmc and clear it ======")) {
+                        // good fetch log again after some time
+                        setTimeout(loop, 2000)
+                    }
+                    else {
+                        console.error("Failed to clear log!")
+                    }
+                })
+            })
+        }
+
+        loop()
     }
 
 
@@ -77,7 +104,15 @@ export class Robot {
     }
 
     parseData(data: string) {
-        console.log('Parsing data:', data);
+        const cmd = data.split('\n')[0].trim();
+        const callback = this.pendingCommands.get(cmd);
+        if (callback) {
+            this.pendingCommands.delete(cmd)
+            callback(data)
+
+        }
+
+        // TODO: change this to new callback system
         if (data.includes('Component,Major,Minor,Build,Aux')) this.version = { ...this.version, ...parseKeys(data, GetVersionKeys) };
         else if (data.includes('Label,Value') && data.includes('BattTempCAvg')) this.charger = { ...this.charger, ...parseKeys(data, GetChargerKeys) };
         else if (data.startsWith('GetErr')) this.error = { ...this.error, ...parseGetErr(data) };
@@ -125,6 +160,11 @@ export class Robot {
     }
 
     async sendCommand(command: string) {
+        this.cmdQueue.push(command + '\n');
+    }
+
+    sendCommand2(command: string, callback: (result: string) => void) {
+        this.pendingCommands.set(command, callback);
         this.cmdQueue.push(command + '\n');
     }
 
