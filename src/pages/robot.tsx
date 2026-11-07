@@ -1,9 +1,10 @@
 import { useEffect, useState, useSyncExternalStore } from 'react';
 import './robot.scss';
-import { connectToRobot, robot, subscribeToRobot, getRobotUpdateTick } from '../logic/connect';
-import type { DataKeyData } from '../logic/robot';
+import { connectToRobot, robot, subscribeToRobot, getRobotUpdateTick, updateRobotStore } from '../logic/connect';
+import { type DataKeyData } from '../logic/robot';
 import TimeAgo from 'react-timeago';
 import { useNavigate } from 'react-router-dom';
+import { builtinSlogRead, foreverFullSlogRead, onetimeFullSlogRead } from '../logic/slog';
 
 function Robot() {
     const [status, setStatus] = useState<string>('Not connected');
@@ -54,14 +55,21 @@ function Robot() {
     )
 
     // Easily extract the value now to avoid ? all over the HTML
-    const { version, charger, error } = robot;
+    const { version, charger, error, testmode, wifistatus } = robot;
 
     return (
-        <div className='info-cards'>
-            <InfoCard title="Version Info" data={version} />
-            <InfoCard title="Error Info" data={error} />
-            <InfoCard title="Charger Info" data={charger} />
-            <Logs />
+        <div className="info-cards">
+            <div className="col">
+                <InfoCard title="Version Info" data={version} />
+                <InfoCard title="Charger Info" data={charger} />
+                <Logs />
+            </div>
+            <div className="col">
+                <InfoCard title="Error Info" data={error} />
+                <Actions />
+                <InfoCard title="Testmode" data={testmode} />
+                <InfoCard title="Wifi Status" data={wifistatus} />
+            </div>
         </div>
     )
 }
@@ -79,20 +87,62 @@ function Logs() {
             </div>
             <div className="action-group logs">
                 {slog === "" ? (
-                    <button className="action-btn" onClick={() => robot?.readSlog()}>Start logfetch</button>
+                    <>
+                        <button className="action-btn" onClick={() => robot && builtinSlogRead(robot)}>Basic logfetch - limited in size and speed</button>
+                        {robot.canDoAdvancedCommands ? (
+                            <>
+                                <button className="action-btn" onClick={() => robot && onetimeFullSlogRead(robot)}>Get full log since boot</button>
+                                <button className="action-btn" onClick={() => robot && foreverFullSlogRead(robot)}>Get full log since boot + continue fetching forever</button>
+                            </>
+                        ) : (
+                            <p className="no-data">An more advanced logfetch is available if you install your robot with at least 1.1.1-b2 installer!</p>
+                        )}
+                    </>
                 ) : (
                     <>
                         <span>
                             {slog.split('\n').length} lines
                         </span>
                         <button className="action-btn" onClick={() => downloadText(slog, "logs.txt")}>Download</button>
+                        <button className="action-btn" onClick={() => { if (robot) robot.slog = ""; updateRobotStore(); }}>Clear log</button>
                         <br />
                         <textarea cols={9999} rows={30} readOnly value={slog}></textarea>
 
                     </>
                 )}
             </div>
-        </div>)
+        </div>
+    )
+}
+
+function Actions() {
+    if (!robot) return null;
+
+    return (
+        <div className="card robot-info">
+            <div className="info-header">
+                <div className="title-group">
+                    <h2>Actions</h2>
+                </div>
+            </div>
+            <div className="action-group logs">
+                <button className="action-btn" onClick={() => {
+                    if (!robot) return;
+                    robot.sendCommand(`TestMode ${robot.testMode ? 'off' : 'on'}`)
+                    robot.sendCommand("TestMode")
+                }}>Toggle TESTMODE</button>
+
+                {robot.testMode ? (
+                    <>
+                        <button className="action-btn" onClick={() => robot && robot.sendCommand("SetSystemMode PowerCycle")}>Reboot robot</button>
+                        <button className="action-btn" onClick={() => robot && robot.sendCommand("NewBattery")}>NewBattery</button>
+                    </>
+                ) : (
+                    <p className="no-data">More options are available in TestMode</p>
+                )}
+            </div>
+        </div>
+    )
 }
 
 function InfoCard({ title, data }: { title: string, data: DataKeyData }) {

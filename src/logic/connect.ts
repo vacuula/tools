@@ -1,7 +1,7 @@
 import { Robot } from "./robot";
 
 let robotConnection: SerialPort;
-export let robot: Robot | null = null;
+export let robot: Robot | undefined;
 
 const listeners = new Set<() => void>();
 let updateTick = 0;

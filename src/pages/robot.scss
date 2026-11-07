@@ -128,10 +128,19 @@
 
 .info-cards {
     display: flex;
-    flex-direction: column;
-    margin-top: 2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
     gap: 1.5rem;
-    margin-bottom: 2rem;
+    margin: 2rem 0;
+
+    .col {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        flex: 1 1 400px;
+        max-width: 550px;
+    }
 }
 
 .robot-info {
@@ -237,8 +246,7 @@
 }
 
 .logs {
-    flex-direction: column;
-
+    flex-wrap: wrap;
 
     textarea {
         resize: none;
