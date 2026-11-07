@@ -1,0 +1,1 @@
+var e=class{getEraseSize(e,t){return t}};export{e as t};
