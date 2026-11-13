@@ -132,6 +132,9 @@ function Actions() {
                     robot.sendCommand("TestMode")
                 }}>Toggle TESTMODE</button>
 
+                <button className="action-btn" onClick={() => robot && robot.sendCommand("SetTime Time_T 1717200000")}>SetTime for update</button>
+
+
                 {robot.testMode ? (
                     <>
                         <button className="action-btn" onClick={() => robot && robot.sendCommand("SetSystemMode PowerCycle")}>Reboot robot</button>
